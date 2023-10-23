@@ -7,10 +7,9 @@ require('dotenv').config();
 
 // middleware
 app.use(cors());
+app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("Hello!");
-});
+
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
@@ -28,6 +27,19 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
+    
+    const products = client.db("styleSpotDB").collection("products");
+    const brands = client.db("styleSpotDB").collection("brands");
+
+    // get request 
+    app.get("/", async(req, res) => {
+      const cursor = brands.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+
+    
     await client.connect();
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
