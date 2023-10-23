@@ -38,6 +38,14 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/:brand", async(req, res) => {
+      const brand = req.params.brand;
+      const query = {brand: brand}
+      const cursor = products.find(query);
+      const result = await cursor.toArray()
+      res.send(result);
+    });
+
 
     
     await client.connect();
