@@ -47,7 +47,13 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/:brand/:id", async(req, res) => {
+    app.get("/details/:id", async(req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id)};
+      const product = await products.findOne(query);
+      res.send(product);
+    });
+    app.get("/update/:id", async(req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id)};
       const product = await products.findOne(query);
